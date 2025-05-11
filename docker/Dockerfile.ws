@@ -2,8 +2,10 @@ FROM oven/bun:latest
 
 WORKDIR /usr/src/app
 
+RUN apt-get update -y && apt-get install -y openssl
+
 COPY ./packages ./packages
-COPY ./bun.lock ./bun.lock
+COPY ./bun.lockb ./bun.lockb
 
 COPY ./package.json ./package.json
 COPY ./turbo.json ./turbo.json
