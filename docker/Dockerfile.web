@@ -2,24 +2,21 @@ FROM oven/bun:latest
 
 WORKDIR /usr/src/app
 
-# Install OpenSSL
 RUN apt-get update -y && apt-get install -y openssl
 
 ARG DATABASE_URL
 ENV DATABASE_URL=${DATABASE_URL}
-
 COPY ./packages ./packages
 COPY ./bun.lockb ./bun.lockb
+
 COPY ./package.json ./package.json
 COPY ./turbo.json ./turbo.json
+
 COPY ./apps/web ./apps/web
 
 RUN bun install
 RUN bun run db:generate
-
-# Set NEXT_PUBLIC_SKIP_DB_CHECK to skip database operations during build
-ENV NEXT_PUBLIC_SKIP_DB_CHECK=true
-RUN bun run build
+RUN DATABASE_URL=${DATABASE_URL} bun run build
 
 EXPOSE 3000
 
