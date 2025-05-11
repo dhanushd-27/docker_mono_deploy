@@ -1,8 +1,11 @@
 services:
   postgres:
     image: postgres
+    container_name: postgres
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=week27
+      - POSTGRES_USER=postgres
     ports:
       - 5432:5432
     volumes:
@@ -15,7 +18,7 @@ services:
     ports:
       - 3003:3003
     environment:
-      - DATABASE_URL=postgresql://postgres:mysecretpassword@postgres:5432/postgres
+      - DATABASE_URL=postgresql://postgres:mysecretpassword@postgres:5432/week27?schema=public
     depends_on:
       postgres:
         condition: service_healthy
@@ -25,11 +28,11 @@ services:
       context: .
       dockerfile: docker/Dockerfile.web
       args:
-        - DATABASE_URL=postgresql://postgres:mysecretpassword@postgres:5432/postgres
+        - DATABASE_URL=postgresql://postgres:mysecretpassword@postgres:5432/week27?schema=public
     ports:
       - 3000:3000
     environment:
-      - DATABASE_URL=postgresql://postgres:mysecretpassword@postgres:5432/postgres
+      - DATABASE_URL=postgresql://postgres:mysecretpassword@postgres:5432/week27?schema=public
     depends_on:
       postgres:
         condition: service_healthy
@@ -41,7 +44,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      - DATABASE_URL=postgresql://postgres:mysecretpassword@postgres:5432/postgres
+      - DATABASE_URL=postgresql://postgres:mysecretpassword@postgres:5432/week27?schema=public
     depends_on:
       postgres:
         condition: service_healthy
