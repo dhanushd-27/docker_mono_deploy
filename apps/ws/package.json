@@ -9,7 +9,7 @@
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "dev": "bun run --watch src/index.ts"
+    "start": "bun run --watch src/index.ts"
   },
   "dependencies": {
     "@repo/db": "*"

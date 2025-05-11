@@ -7,7 +7,7 @@
     "@types/express": "^5.0.1"
   },
   "scripts": {
-    "dev": "bun run --watch src/index.ts"
+    "start": "bun run --watch src/index.ts"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
