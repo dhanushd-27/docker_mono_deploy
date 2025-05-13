@@ -12,12 +12,13 @@ COPY package.json /usr/src/app
 COPY turbo.json /usr/src/app
 COPY bun.lockb /usr/src/app
 
+RUN bun install
+
 # Copy workspace packages
 COPY ./packages /usr/src/app/packages
 COPY ./apps/web /usr/src/app/apps/web
 
 # Install dependencies and build
-RUN bun install
 RUN bun run db:generate
 # RUN cd /usr/src/app/packages/db
 # ENV DATABASE_URL=$DATABASE_URL
