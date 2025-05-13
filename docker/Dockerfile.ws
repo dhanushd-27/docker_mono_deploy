@@ -17,4 +17,6 @@ RUN bun run db:generate
 
 EXPOSE 8080
 
+WORKDIR /usr/src/app
+
 CMD ["bun", "run", "start:ws"]

@@ -1,16 +1,4 @@
 services:
-  postgres:
-    image: postgres
-    container_name: postgres
-    environment:
-      - POSTGRES_PASSWORD=mysecretpassword
-      - POSTGRES_DB=week27
-      - POSTGRES_USER=postgres
-    ports:
-      - 5432:5432
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
   server:
     build:
       context: .
@@ -19,7 +7,7 @@ services:
     ports:
       - 3003:3003
     environment:
-      - DATABASE_URL="postgresql://postgres:mysecretpassword@postgres:5432/week27?schema=public"
+      - DATABASE_URL=postgresql://postgres:mysecretpassword@postgres:5432/week27?schema=public
     depends_on:
       postgres:
         condition: service_healthy
@@ -29,13 +17,12 @@ services:
       context: .
       dockerfile: docker/Dockerfile.web
       args:
-        - DB_URL="postgresql://postgres:mysecretpassword@postgres:5432/week27?schema=public"
-      network: host
+        - DATABASE_URL=postgresql://postgres:mysecretpassword@postgres:5432/week27?schema=public
     container_name: web
     ports:
       - 3000:3000
     environment:
-      - DATABASE_URL="postgresql://postgres:mysecretpassword@postgres:5432/week27?schema=public"
+      - DATABASE_URL=postgresql://postgres:mysecretpassword@postgres:5432/week27?schema=public
     depends_on:
       postgres:
         condition: service_healthy
@@ -48,10 +35,30 @@ services:
       - 8080:8080
     container_name: ws
     environment:
-      - DATABASE_URL="postgresql://postgres:mysecretpassword@postgres:5432/week27?schema=public"
+      - DATABASE_URL=postgresql://postgres:mysecretpassword@postgres:5432/week27?schema=public
     depends_on:
       postgres:
         condition: service_healthy
 
+  postgres:
+    user: postgres
+    image: postgres:alpine
+    restart: always
+    container_name: postgres
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=week27
+      - POSTGRES_USER=postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 volumes:
-  postgres_data:
+  pgdata:
+    # driver: local -> This is default. No need to include this line.
