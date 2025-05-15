@@ -25,5 +25,8 @@ jobs:
           build-args:
             DATABASE_URL=${{ secrets.DATABASE_URL }}
           tags: dhanushd27/testme:${{ github.sha }}
-      - run: |
-          echo ${{ secrets.DATABASE_URL }}
+
+        #  ssh into the vm
+        #  login and pull the image
+        #  run the image
+        #  restart the service
