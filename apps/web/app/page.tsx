@@ -1,6 +1,11 @@
 import prisma from '@repo/db/client';
 import React from 'react'
 
+type User = {
+  id: string;
+  email: string;
+}
+
 export default async function Home() {
   const users = await prisma.user.findMany();
 
@@ -8,7 +13,7 @@ export default async function Home() {
     <div>
       <h1>Users</h1>
       <ul>
-        {users.map((user) => <li key={user.id}>{user.email}</li>)}
+        {users.map((user: User) => <li key={user.id}>{user.email}</li>)}
       </ul>
     </div>
   )
