@@ -25,5 +25,5 @@ jobs:
           build-args:
             DATABASE_URL=${{ secrets.DATABASE_URL }}
           tags: dhanushd27/testme:${{ github.sha }}
-        run: |
-            echo ${{ secrets.DATABASE_URL }}
+      - run: |
+          echo ${{ secrets.DATABASE_URL }}
