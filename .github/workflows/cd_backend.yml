@@ -18,4 +18,4 @@ jobs:
       
       - name: Docker Creds
         run: |
-          echo docker-credential-osxkeychain list
+          docker-credential-osxkeychain list
